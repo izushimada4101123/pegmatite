@@ -17,12 +17,8 @@
     {
       "js": ["rawdeflate.js", "content-script.js"],
       "matches": [
-        "https://github.com/*",
-        "https://gist.github.com/*",
-        "https://gitpitch.com/*",
-        "https://gitlab.com/*",
-        "https://bitbucket.org/*",
-        "https://*.backlog.jp/wiki/*"
+        "https://*/*",
+        "http://*/*"
       ]
     }
   ]

@@ -238,22 +238,51 @@ function run(config) {
 	});
 }
 
-chrome.storage.local.get("baseUrl", function(config) {
-	if (window.location.hostname === "bitbucket.org") {
-		var observer = new MutationObserver(function() {
-			if (document.getElementsByClassName("language-plantuml").length > 0) {
-				run(config);
-				observer.disconnect();
-			}
-		});
+var sites = [
+	/github\.com/,
+	/gist\.github\.com/,
+	/gitpitch\.com/,
+	/gitlab\.com/,
+	/bitbucket\.org/,
+	/[.]*\.backlog\.jp/,
+];
 
-		observer.observe(document.body, {
-			attributes: true,
-			characterData: true,
-			childList: true,
-			subtree: true
+chrome.storage.local.get("additionalSites", function(config) {
+	additionalSites = config.additionalSites.split("\n");
+	additionalSites.map(function(site) {
+		site = site.replace(/\./g, '\\.').replace(/\*/g, '.*');
+//		console.log(site);
+		sites.push(new RegExp(site));
+	})
+
+	siteFound = sites.find(function(site) { return site.test(window.location.hostname); });
+
+	console.log(siteFound);
+
+	if(siteFound) {
+	//window.alert(window.location.hostname);
+	
+//	console.log(siteFound);
+	
+		chrome.storage.local.get("baseUrl", function(config) {
+			if (window.location.hostname === "bitbucket.org") {
+				var observer = new MutationObserver(function() {
+					if (document.getElementsByClassName("language-plantuml").length > 0) {
+						run(config);
+						observer.disconnect();
+					}
+				});
+		
+				observer.observe(document.body, {
+					attributes: true,
+					characterData: true,
+					childList: true,
+					subtree: true
+				});
+			}
+		
+			run(config);
 		});
 	}
-
-	run(config);
 });
+
