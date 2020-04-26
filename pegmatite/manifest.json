@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Pegmatite",
+  "name": "PegmatiteCustom",
   "version": "1.6.0",
-  "description": "Shows graphs and diagrams rendered by PlantUML.",
-  "permissions": ["storage", "https://*/*", "tabs"],
+  "version_name": "custom site",
+  "description": "Shows graphs and diagrams rendered by PlantUML at your favorite site",
+  "permissions": ["storage", "<all_urls>", "tabs"],
   "options_page": "options.html",
   "options_ui": {
     "page": "options.html",
